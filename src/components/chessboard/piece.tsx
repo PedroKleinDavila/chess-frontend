@@ -11,6 +11,7 @@ import white_knight from "../../assets/pieces/alpha/wN.svg";
 import white_pawn from "../../assets/pieces/alpha/wP.svg";
 import white_queen from "../../assets/pieces/alpha/wQ.svg";
 import white_rook from "../../assets/pieces/alpha/wR.svg";
+import { PieceComponentType } from "../../types/types";
 
 const pieceImages: Record<string, string> = {
     "black_bishop": black_bishop,
@@ -26,12 +27,21 @@ const pieceImages: Record<string, string> = {
     "white_queen": white_queen,
     "white_rook": white_rook,
 };
-
-export default function Piece({ color, type, position }: { color: string; type: string, position: string }) {
+export default function Piece({ color, type, position }: PieceComponentType) {
     const pieceKey = `${color}_${type}`;
+    const pieceSrc = pieceImages[pieceKey];
+
+    if (!pieceSrc) {
+        console.warn(`Peça inválida: ${pieceKey}`);
+        return null;
+    }
     return (
         <Flex key={position} position="absolute" color={color}>
-            <Image src={pieceImages[pieceKey]} alt={type} boxSize="60px" />
+            <Image
+                src={pieceImages[pieceKey]}
+                alt={type}
+                boxSize="60px"
+            />
         </Flex>
     );
 }
